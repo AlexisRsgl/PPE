@@ -43,10 +43,10 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cars  $cars
+     * @param  \App\Models\Vendors  $vendors
      * @return \Illuminate\Http\Response
      */
-    public function show(Cars $cars)
+    public function show(Vendors $vendors)
     {
         //
     }
@@ -55,22 +55,38 @@ class VendorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cars  $cars
+     * @param  \App\Models\Vendors  $vendors
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cars $cars)
+    public function update(Request $request, $id)
     {
-        //
+        $vendorsValidation = $request->validate([
+            "name" => ["string"]
+        ]);
+
+        $vendor = Vendors::find($id);
+        if(!$vendor){
+            return response(["message" => "Aucun fournisseur de trouvé avec cet id : $id"], 404);
+        }
+        $vendor->update($vendorsValidation);
+        return response(["message" => "Le fournisseur a bien été mis à jour"], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cars  $cars
+     * @param  \App\Models\Vendors  $vendors
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cars $cars)
+    public function destroy(Request $request, $id)
     {
-        //
+        $vendors = Vendors::find($id);
+        if(!$vendors){
+            return response(["message" => "Aucun fournisseur de trouvé avec cet id : $id"], 404);
+        }
+
+        Vendors::destroy($id);
+
+        return response(["message" => "Le fournisseur a bien été supprimé"], 200);
     }
 }

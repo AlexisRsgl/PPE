@@ -40,4 +40,30 @@ class UserController extends Controller
             "token" => $token
         ], 200);
     }
+
+    public function deconnexion() {
+        auth()->user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+        return response(["message" => "Déconnecté"], 200);
+    }
+
+    public function delete(Request $request) {
+        $UserData = $request->validate([
+            "email" => ["required", "email", "exists:users,email"],
+            "password" => ["required", "string", "min:12", "max:50", "regex:/[A-Z]/", "regex:/[0-9]/", "regex:/[@$!%*#?&]/"],
+            "user_id" => ["required", "numeric"]
+        ]);
+
+        $User = User::where("email", $UserData["email"])->first();
+
+        if(!Hash::check($UserData["password"], $User->password)) {
+            return response(["message" => "Ce mot de passe ne correspond pas à cet email"], 401);
+        }
+        if($User->id != $UserData["user_id"]) {
+            return response(["message" => "Action non autorisée"], 403);
+        }
+        User::destroy($UserData["user_id"]);
+        return response(["message" => "Compte supprimé"], 200);
+    }
 }
