@@ -18,7 +18,7 @@ class UserController extends Controller
         $Users = User::create([
             "name" => $UserData["name"],
             "email" => $UserData["email"],
-            "password" => bcrypt($UserData["password"])
+            "password" => bcrypt($UserData["password"]) /* password_confirmation */
         ]);
 
         return response($Users, 201);

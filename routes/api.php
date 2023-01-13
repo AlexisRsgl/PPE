@@ -7,17 +7,6 @@ use App\Http\Controllers\CarsController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\VendorController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::post('/inscription', [UserController::class, "inscription"]);
 Route::post('/connexion', [UserController::class, "connexion"]);
 
