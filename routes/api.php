@@ -17,10 +17,16 @@ Route::get('/cars/{id}', [CarsController::class, "show"]);
 Route::get('/commandes', [OrdersController::class, "index"]);
 Route::get('/commandes/{id}', [OrdersController::class, "show"]);
 
+Route::get('/utilisateurs', [UserController::class, "index"]);
+Route::put('/compte', [UserController::class, "update"]);
+Route::delete('/compte', [UserController::class, "delete"]);
+Route::put('/activate', [UserController::class, "activate"]);
+Route::put('/desactivate', [UserController::class, "desactivate"]);
+
 Route::group(["middleware" => ["auth:sanctum"]], function() {
 
     Route::post('/deconnexion', [UserController::class, "deconnexion"]);
-    Route::post('/suppression', [UserController::class, "delete"]);
+    
 
     Route::get('/agencies', [AgencyController::class, "index"]);
     Route::post('/agencies', [AgencyController::class, "store"]);
